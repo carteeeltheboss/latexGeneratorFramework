@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Packaging error{% endblock %}
+{% block content %}
+<section class="panel narrow"><div class="alert error"><strong>Could not create the package.</strong><p>{{ message }}</p></div><a class="secondary button-link" href="{{ url_for('index') }}">Return to questionnaire</a></section>
+{% endblock %}

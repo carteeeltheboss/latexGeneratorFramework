@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Build a presentation package{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <span class="eyebrow">One questionnaire → one AI-ready package</span>
+    <h1>Describe the project. Keep the presentation style.</h1>
+    <p>The form generates a complete prompt with embedded YAML and packages it with the reusable EMSI/TikZ LaTeX template.</p>
+  </div>
+  <div class="hero-card">
+    <strong>Output</strong>
+    <code>generation_prompt.txt</code>
+    <code>presentation_template.tex</code>
+    <code>Overleaf or local helpers</code>
+  </div>
+</section>
+
+{% if errors %}
+<div class="alert error">
+  <strong>Please fix these fields:</strong>
+  <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<form class="questionnaire" method="post" action="{{ url_for('generate') }}" enctype="multipart/form-data" data-initial-step="{{ initial_step|default(1) }}">
+  <nav class="step-nav" aria-label="Questionnaire steps">
+    <button type="button" class="step-button active" data-step-target="1">1. Format</button>
+    <button type="button" class="step-button" data-step-target="2">2. Identity</button>
+    <button type="button" class="step-button" data-step-target="3">3. Project</button>
+    <button type="button" class="step-button" data-step-target="4">4. Planning</button>
+    <button type="button" class="step-button" data-step-target="5">5. Visuals</button>
+    <button type="button" class="step-button" data-step-target="6">6. Export</button>
+  </nav>
+
+  <section class="form-step active" data-step="1">
+    <div class="section-heading"><span>1</span><div><h2>Presentation format</h2><p>This controls the structure. A school project will not receive company slides.</p></div></div>
+    <div class="grid two">
+      <label>Presentation type
+        <select name="presentation_type" id="presentation_type">
+          <option value="school_project">School project</option>
+          <option value="internship">Internship</option>
+          <option value="final_year_project">Final-year project</option>
+          <option value="research_project">Research project</option>
+          <option value="technical_demo">Technical demonstration</option>
+          <option value="custom">Custom</option>
+        </select>
+      </label>
+      <label>Language
+        <select name="language"><option>english</option><option>french</option><option>arabic</option></select>
+      </label>
+      <label class="wide">Presentation title <span class="required">required</span>
+        <input name="title" required placeholder="Intelligent Network Monitoring Platform">
+      </label>
+      <label class="wide">Subtitle
+        <input name="subtitle" placeholder="Architecture, implementation and results">
+      </label>
+      <label>Duration in minutes
+        <input type="number" name="duration_minutes" min="3" max="120" value="15">
+      </label>
+      <label>Target slide count
+        <input type="number" name="target_slide_count" min="5" max="80" value="16">
+      </label>
+      <label>Audience
+        <input name="audience" value="academic jury">
+      </label>
+      <label>Tone
+        <select name="tone"><option>professional and technical</option><option>academic and analytical</option><option>concise and executive</option><option>educational and accessible</option></select>
+      </label>
+    </div>
+  </section>
+
+  <section class="form-step" data-step="2">
+    <div class="section-heading"><span>2</span><div><h2>Identity and context</h2><p>EMSI remains permanent. Partner branding appears only when relevant.</p></div></div>
+    <div class="grid two">
+      <label class="wide">Presenter names, one per line <span class="required">required</span>
+        <textarea name="presenters" required rows="3" placeholder="Karim Hanfaoui"></textarea>
+      </label>
+      <label>Academic supervisor
+        <input name="academic_supervisor" placeholder="Prof. Name">
+      </label>
+      <label>Email
+        <input type="email" name="email" placeholder="name@emsi-edu.ma">
+      </label>
+      <label>Programme / level
+        <input name="programme" placeholder="4th Year IA & Data">
+      </label>
+      <label>Academic year
+        <input name="academic_year" placeholder="2026–2027">
+      </label>
+      <label>Presentation date
+        <input name="presentation_date" placeholder="20 July 2026">
+      </label>
+      <label>Location
+        <input name="location" placeholder="Casablanca">
+      </label>
+    </div>
+
+    <div class="conditional-card" id="organisation_fields">
+      <div class="switch-row">
+        <div><strong>Organisation / partner</strong><small>Mandatory for internships; optional for other formats.</small></div>
+        <label class="switch"><input type="checkbox" name="organisation_enabled" id="organisation_enabled"><span></span></label>
+      </div>
+      <div class="grid two organisation-inputs">
+        <label>Organisation name <span class="required organisation-required hidden">required</span>
+          <input name="organisation_name" id="organisation_name" placeholder="Company or laboratory" autocomplete="organization">
+        </label>
+        <label>Department
+          <input name="organisation_department" placeholder="Cloud engineering">
+        </label>
+        <label>Organisation supervisor
+          <input name="organisation_supervisor" placeholder="Supervisor name">
+        </label>
+        <label>Partner logo (PNG, JPG or PDF)
+          <input type="file" name="partner_logo" accept=".png,.jpg,.jpeg,.pdf">
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-step" data-step="3">
+    <div class="section-heading"><span>3</span><div><h2>Project content</h2><p>Facts only. The AI is instructed not to invent missing results or citations.</p></div></div>
+    <div class="grid two">
+      <label class="wide">Context
+        <textarea name="context" rows="3" placeholder="Where the project comes from and why it matters"></textarea>
+      </label>
+      <label class="wide">Problem statement <span class="required">required</span>
+        <textarea name="problem" required rows="4" placeholder="What concrete problem must be solved?"></textarea>
+      </label>
+      <label class="wide">Proposed solution
+        <textarea name="proposed_solution" rows="4" placeholder="What was designed or built?"></textarea>
+      </label>
+      <label>Objectives, one per line
+        <textarea name="objectives" rows="6"></textarea>
+      </label>
+      <label>Technologies, one per line
+        <textarea name="technologies" rows="6"></textarea>
+      </label>
+      <label>Requirements, one per line
+        <textarea name="requirements" rows="6"></textarea>
+      </label>
+      <label>Implementation highlights, one per line
+        <textarea name="implementation_highlights" rows="6"></textarea>
+      </label>
+      <label>Testing performed, one per line
+        <textarea name="testing" rows="5"></textarea>
+      </label>
+      <label>Results or KPIs, one per line
+        <textarea name="results" rows="5"></textarea>
+      </label>
+      <label>Challenges, one per line
+        <textarea name="challenges" rows="5"></textarea>
+      </label>
+      <label>Future work, one per line
+        <textarea name="future_work" rows="5"></textarea>
+      </label>
+      <label>Repository URL
+        <input type="url" name="repository_url" placeholder="https://github.com/...">
+      </label>
+      <label>Project assets
+        <input type="file" name="project_assets" multiple accept=".png,.jpg,.jpeg,.pdf">
+        <small>Screenshots, diagrams or figures. Total request limit: 25 MB.</small>
+      </label>
+    </div>
+  </section>
+
+  <section class="form-step" data-step="4">
+    <div class="section-heading"><span>4</span><div><h2>Planning and methodology</h2><p>Choose Yes, No, or Auto. Auto lets the AI decide from the project.</p></div></div>
+    <div class="grid two">
+      <label>Methodology
+        <select name="methodology"><option value="auto">Auto</option><option>Scrum</option><option>Kanban</option><option>Waterfall</option><option>CRISP-DM</option><option>Research methodology</option><option>None</option></select>
+      </label>
+      <label>Task table
+        <select name="task_table"><option value="auto">Auto</option><option value="yes">Yes</option><option value="no">No</option></select>
+      </label>
+      <label>PERT analysis
+        <select name="pert"><option value="auto">Auto</option><option value="yes">Yes</option><option value="no">No</option></select>
+      </label>
+      <label>Gantt chart
+        <select name="gantt"><option value="auto">Auto</option><option value="yes">Yes</option><option value="no">No</option></select>
+      </label>
+      <label>Critical path analysis
+        <select name="critical_path"><option value="auto">Auto</option><option value="yes">Yes</option><option value="no">No</option></select>
+      </label>
+      <label class="wide">Tasks and dependencies, one per line
+        <textarea name="tasks_and_dependencies" rows="7" placeholder="A | Requirements analysis | 3 days | none&#10;B | Architecture design | 4 days | A FS&#10;C | Implementation | 10 days | B FS"></textarea>
+      </label>
+    </div>
+  </section>
+
+  <section class="form-step" data-step="5">
+    <div class="section-heading"><span>5</span><div><h2>Visual direction</h2><p>TikZ is the default explanation tool, not decoration.</p></div></div>
+    <div class="grid three">
+      <label>TikZ usage
+        <select name="tikz_intensity"><option>high</option><option>medium</option><option>low</option></select>
+      </label>
+      <label>Text density
+        <select name="text_density"><option>low</option><option>medium</option><option>high</option></select>
+      </label>
+      {% for field, label in [
+        ('architecture_diagram','Architecture diagram'),
+        ('workflow_diagram','Workflow diagram'),
+        ('use_case_diagram','Use-case diagram'),
+        ('sequence_diagram','Sequence diagram'),
+        ('data_model_diagram','Data model'),
+        ('deployment_diagram','Deployment diagram'),
+        ('screenshots','Screenshots')
+      ] %}
+      <label>{{ label }}
+        <select name="{{ field }}"><option value="auto">Auto</option><option value="yes">Yes</option><option value="no">No</option></select>
+      </label>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="form-step" data-step="6">
+    <div class="section-heading"><span>6</span><div><h2>Export target</h2><p>The WebUI prepares the package and shows exact compilation instructions.</p></div></div>
+    <div class="choice-grid">
+      <label class="choice-card"><input type="radio" name="output_target" value="overleaf" checked><span><strong>Overleaf</strong><small>Upload-ready ZIP and visual instructions.</small></span></label>
+      <label class="choice-card"><input type="radio" name="output_target" value="local"><span><strong>Local</strong><small>Scripts for macOS/Linux and Windows.</small></span></label>
+      <label class="choice-card"><input type="radio" name="output_target" value="both"><span><strong>Both</strong><small>Prepare both package layouts.</small></span></label>
+    </div>
+    <div class="grid two top-gap">
+      <label>Compiler
+        <select name="compiler"><option value="pdflatex">pdfLaTeX — broadest compatibility</option><option value="lualatex">LuaLaTeX — modern fonts</option><option value="xelatex">XeLaTeX — system fonts</option></select>
+      </label>
+      <label>Bibliography
+        <select name="bibliography"><option value="none">None</option><option value="bibtex">BibTeX</option><option value="biber">Biber</option></select>
+      </label>
+      <label class="checkbox-line"><input type="checkbox" name="shell_escape"> Allow shell escape only if explicitly required</label>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    <button type="button" class="secondary" id="previous_step" disabled>Back</button>
+    <div class="progress"><span id="progress_bar"></span></div>
+    <button type="button" class="primary" id="next_step">Continue</button>
+    <button type="submit" class="primary hidden" id="generate_button">Generate package</button>
+  </div>
+</form>
+<script id="previous_form_data" type="application/json">{{ previous|default({})|tojson }}</script>
+
+<section class="instructions-preview">
+  <div class="section-heading"><span>?</span><div><h2>How compilation works</h2><p>The application never installs LaTeX and never repairs PATH.</p></div></div>
+  <div class="instruction-tabs">
+    <button class="tab-button active" type="button" data-tab="overleaf-guide">Overleaf</button>
+    <button class="tab-button" type="button" data-tab="local-guide">Local</button>
+  </div>
+  <div class="tab-panel active" id="overleaf-guide">
+    <ol class="visual-steps"><li><b>Generate</b><span>Download the package from this WebUI.</span></li><li><b>Ask the AI</b><span>Send the prompt, template and assets.</span></li><li><b>Save main.tex</b><span>Replace the temporary wrapper.</span></li><li><b>Upload</b><span>New Project → Upload Project in Overleaf.</span></li><li><b>Compile</b><span>Select the requested compiler and recompile.</span></li></ol>
+  </div>
+  <div class="tab-panel" id="local-guide">
+    <ol class="visual-steps"><li><b>Generate</b><span>Choose Local or Both.</span></li><li><b>Ask the AI</b><span>Save the returned source as main.tex.</span></li><li><b>Prepare LaTeX</b><span>You manage TeX Live or MiKTeX and PATH.</span></li><li><b>Run script</b><span><code>./compile.sh</code> or <code>.\compile.ps1</code>.</span></li><li><b>Open PDF</b><span>The output is main.pdf.</span></li></ol>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,3 @@
+# Compiler mode is selected by compile.sh / compile.ps1.
+$interaction = 'nonstopmode';
+$halt_on_error = 1;

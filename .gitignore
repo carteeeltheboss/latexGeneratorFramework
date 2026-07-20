@@ -1,331 +1,277 @@
-## Core latex/pdflatex auxiliary files:
+# =============================================================================
+# Agentic Presentation Builder
+# Python / Flask / LaTeX / Docker / cross-platform development
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Secrets and machine-local configuration
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+!.env.template
+*.secret
+*.secrets
+secrets/
+.direnv/
+.envrc
+instance/
+
+# User-generated project configurations (keep examples/templates)
+/project.yaml
+/project.yml
+/projects/
+!project.example.yaml
+!project.example.yml
+!projects/.gitkeep
+
+# -----------------------------------------------------------------------------
+# Python virtual environments
+# -----------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# -----------------------------------------------------------------------------
+# Python bytecode, caches and build artifacts
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+pip-wheel-metadata/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Package-manager and installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# -----------------------------------------------------------------------------
+# Tests, coverage, linters and type-checkers
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.pyright/
+.ruff_cache/
+.cache/
+
+# -----------------------------------------------------------------------------
+# Flask / WSGI runtime files
+# -----------------------------------------------------------------------------
+flask_session/
+sessions/
+*.pid
+*.pid.lock
+*.sock
+
+# -----------------------------------------------------------------------------
+# Generated application files and user uploads
+# -----------------------------------------------------------------------------
+/exports/
+/output/
+/outputs/
+/generated/
+/uploads/
+/user_uploads/
+/tmp/
+/temp/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Allow intentionally versioned archive fixtures under resources or tests
+!resources/**/*.zip
+!tests/fixtures/**/*.zip
+
+# -----------------------------------------------------------------------------
+# LaTeX auxiliary and compilation files
+# Do not ignore every PDF: PDF files may be legitimate presentation assets.
+# -----------------------------------------------------------------------------
 *.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.dvi
+*.fdb_latexmk
+*.fls
+*.fmt
+*.fot
 *.lof
 *.log
 *.lot
-*.fls
+*.nav
 *.out
-*.toc
-*.fmt
-*.fot
-*.cb
-*.cb2
-.*.lb
-
-## Intermediate documents:
-*.dvi
-*.xdv
-*-converted-to.*
-# these rules might exclude image files for figures etc.
-# *.ps
-# *.eps
-# *.pdf
-
-## Generated if empty string is given at "Please type another file name for output:"
-.pdf
-
-## Bibliography auxiliary files (bibtex/biblatex/biber):
-*.bbl
-*.bbl-SAVE-ERROR
-*.bcf
-*.bcf-SAVE-ERROR
-*.blg
-*-blx.aux
-*-blx.bib
+*.ps
 *.run.xml
-
-## Build tool auxiliary files:
-*.fdb_latexmk
+*.snm
 *.synctex
-*.synctex(busy)
 *.synctex.gz
 *.synctex.gz(busy)
-*.pdfsync
-*.rubbercache
-rubber.cache
-
-## Build tool directories for auxiliary files
-# latexrun
-latex.out/
-
-## Auxiliary and intermediate files from other packages:
-# algorithms
-*.alg
-*.loa
-
-# achemso
-acs-*.bib
-
-# amsthm
-*.thm
-
-# attachfile2
-*.atfi
-
-# beamer
-*.nav
-*.pre
-*.snm
+*.toc
 *.vrb
+*.xdv
 
-# changes
-*.soc
-*.loc
-
-# comment
-*.cut
-
-# context
-*.tuc
-*.tui
-*.tuo
-
-# cprotect
-*.cpt
-
-# elsarticle (documentclass of Elsevier journals)
-*.spl
-
-# endnotes
-*.ent
-
-# fixme
-*.lox
-
-# feynmf/feynmp
-*.mf
-*.mp
-*.t[1-9]
-*.t[1-9][0-9]
-*.tfm
-
-#(r)(e)ledmac/(r)(e)ledpar
-*.end
-*.?end
-*.[1-9]
-*.[1-9][0-9]
-*.[1-9][0-9][0-9]
-*.[1-9]R
-*.[1-9][0-9]R
-*.[1-9][0-9][0-9]R
-*.eledsec[1-9]
-*.eledsec[1-9]R
-*.eledsec[1-9][0-9]
-*.eledsec[1-9][0-9]R
-*.eledsec[1-9][0-9][0-9]
-*.eledsec[1-9][0-9][0-9]R
-
-# glossaries
+# LaTeX indexes, glossaries, nomenclature and minitoc
 *.acn
 *.acr
+*.alg
 *.glg
-*.glg-abr
 *.glo
-*.glo-abr
 *.gls
-*.gls-abr
 *.glsdefs
-*.lzo
-*.lzs
-*.slg
-*.slo
-*.sls
-
-# uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
-
-# gnuplot
-*.gnuplot
-*.table
-
-# gnuplottex
-*-gnuplottex-*
-
-# gregoriotex
-*.gaux
-*.glog
-*.gtex
-
-# htlatex
-*.4ct
-*.4tc
-*.idv
-*.lg
-*.trc
-*.xref
-
-# hypdoc
-*.hd
-
-# hyperref
-*.brf
-
-# knitr
-*-concordance.tex
-# TODO Uncomment the next line if you use knitr and want to ignore its generated tikz files
-# *.tikz
-*-tikzDictionary
-
-# latexindent will create succesive backup files by default
-#*.bak*
-
-# listings
-*.lol
-
-# luatexja-ruby
-*.ltjruby
-
-# makeidx
 *.idx
 *.ilg
 *.ind
-
-# minitoc
+*.ist
+*.loa
 *.maf
-*.mlf
-*.mlt
-*.mtc[0-9]*
-*.slf[0-9]*
-*.slt[0-9]*
-*.stc[0-9]*
-
-# minted
-_minted*
-*.data.minted
-*.pyg
-
-# morewrites
-*.mw
-
-# newpax
-*.newpax
-
-# nomencl
-*.nlg
+*.mtc
+*.mtc0
+*.mtc1
 *.nlo
 *.nls
+*.slf
+*.slo
+*.sls
+*.thm
 
-# pax
-*.pax
-
-# pdfpcnotes
-*.pdfpc
-
-# sagetex
-*.sagetex.sage
-*.sagetex.py
-*.sagetex.scmd
-
-# scrwfile
-*.wrt
-
-# spelling
-*.spell.bad
-*.spell.txt
-
-# svg
+# TikZ/externalisation, minted, PythonTeX, SageTeX and SVG conversion
+*.tikz
+*.pyg
+*.pytxcode
+*.sage.py
+_minted-*/
+*.listing
+*.w18
+*-converted-to.pdf
 svg-inkscape/
 
-# sympy
-*.sout
-*.sympy
-sympy-plots-for-*.tex/
+# Common final PDFs produced by this repository
+/main.pdf
+/presentation.pdf
+/presentation_template.pdf
+/resources/main.pdf
+/resources/presentation.pdf
+/resources/presentation_template.pdf
 
-# pdfcomment
-*.upa
-*.upb
+# -----------------------------------------------------------------------------
+# Docker machine-local overrides and runtime data
+# -----------------------------------------------------------------------------
+compose.override.yaml
+compose.override.yml
+docker-compose.override.yaml
+docker-compose.override.yml
+.docker/
+docker-data/
 
-# pythontex
-*.pytxcode
-pythontex-files-*/
+# Keep the actual Docker project files
+!.dockerignore
+!Dockerfile
+!compose.yaml
+!compose.yml
+!docker-compose.yaml
+!docker-compose.yml
 
-# tcolorbox
-*.listing
+# -----------------------------------------------------------------------------
+# Editors and IDEs
+# -----------------------------------------------------------------------------
+.vscode/
+.idea/
+.fleet/
+*.code-workspace
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
 
-# thmtools
-*.loe
+# Vim / Emacs / general editor backups
+*.swp
+*.swo
+*.swn
+*~
+.#*
+\#*\#
 
-# TikZ & PGF
-*.dpth
-*.md5
-*.auxlock
+# -----------------------------------------------------------------------------
+# Operating-system metadata
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon\r
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
 
-# titletoc
-*.ptc
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
 
-# todonotes
-*.tdo
+# Linux
+.directory
+.Trash-*
+.nfs*
 
-# vhistory
-*.hst
-*.ver
-
-# easy-todo
-*.lod
-
-# xcolor
-*.xcp
-
-# xmpincl
-*.xmpi
-
-# xindy
-*.xdy
-
-# xypic precompiled matrices and outlines
-*.xyc
-*.xyd
-
-# endfloat
-*.ttt
-*.fff
-
-# Latexian
-TSWLatexianTemp*
-
-## Editors:
-# WinEdt
+# -----------------------------------------------------------------------------
+# Generic temporary, backup and patch files
+# -----------------------------------------------------------------------------
 *.bak
-*.sav
-
-# latexindent.pl
-*.bak[0-9]*
-
-# Texpad
-.texpadtmp
-
-# LyX
-*.lyx~
-
-# Kile
+*.tmp
+*.temp
+*.orig
+*.rej
+*.old
 *.backup
 
-# gummi
-.*.swp
-
-# KBibTeX
-*~[0-9]*
-
-# TeXnicCenter
-*.tps
-
-# auto folder when using emacs and auctex
-./auto/*
-*.el
-
-# expex forward references with \gathertags
-*-tags.tex
-
-# standalone packages
-*.sta
-
-# Makeindex log files
-*.lpz
-
-# xwatermark package
-*.xwm
-
-# REVTeX puts footnotes in the bibliography by default, unless the nofootinbib
-# option is specified. Footnotes are the stored in a file with suffix Notes.bib.
-# Uncomment the next line to have this generated file ignored.
-#*Notes.bib
+# Jupyter notebooks, if used for experimentation
+.ipynb_checkpoints/

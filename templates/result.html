@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Package ready{% endblock %}
+{% block content %}
+<section class="result-hero">
+  <span class="success-mark">✓</span>
+  <div><span class="eyebrow">Package generated</span><h1>{{ config.presentation.title }}</h1><p>The YAML is already embedded inside the final AI prompt.</p></div>
+  <a class="primary button-link" href="{{ url_for('download', token=token) }}">Download {{ filename }}</a>
+</section>
+
+<div class="summary-grid">
+  <article><small>Type</small><strong>{{ config.presentation.type.replace('_',' ')|title }}</strong></article>
+  <article><small>Target</small><strong>{{ config.output.target|title }}</strong></article>
+  <article><small>Compiler</small><strong>{{ config.output.compiler }}</strong></article>
+  <article><small>TikZ</small><strong>{{ config.visuals.tikz_intensity|title }}</strong></article>
+</div>
+
+<section class="panel">
+  <h2>Next steps</h2>
+  <ol class="visual-steps compact">
+    <li><b>Download</b><span>Extract the generated ZIP.</span></li>
+    <li><b>Send to an AI</b><span>Attach <code>generation_prompt.txt</code>, <code>presentation_template.tex</code>, and the assets folder.</span></li>
+    <li><b>Receive main.tex</b><span>The prompt requires a complete, compilable presentation.</span></li>
+    <li><b>Replace main.tex</b><span>Overwrite the temporary wrapper inside the package.</span></li>
+    <li><b>Compile</b><span>Follow the target-specific instructions below.</span></li>
+  </ol>
+</section>
+
+<section class="panel">
+  <div class="instruction-tabs">
+    <button class="tab-button active" type="button" data-tab="result-overleaf">Overleaf</button>
+    <button class="tab-button" type="button" data-tab="result-local">Local</button>
+  </div>
+  <div class="tab-panel active" id="result-overleaf">
+    <ol class="visual-steps"><li><b>Open Overleaf</b><span>Choose New Project → Upload Project.</span></li><li><b>Upload ZIP</b><span>Use the Overleaf folder when target is Both.</span></li><li><b>Main document</b><span>Set <code>main.tex</code> as the main file.</span></li><li><b>Compiler</b><span>Select <code>{{ config.output.compiler }}</code>.</span></li><li><b>Recompile</b><span>Resolve only missing assets reported in the log.</span></li></ol>
+  </div>
+  <div class="tab-panel" id="result-local">
+    <div class="command-grid">
+      <div><h3>macOS / Linux</h3><code>chmod +x compile.sh<br>./compile.sh</code></div>
+      <div><h3>Windows PowerShell</h3><code>Set-ExecutionPolicy -Scope Process Bypass<br>.\compile.ps1</code></div>
+    </div>
+    <p class="muted">The scripts check for <code>latexmk</code> and the selected compiler. They do not install or repair them.</p>
+  </div>
+</section>
+
+<section class="panel">
+  <details><summary>Preview embedded YAML</summary><pre>{{ project_yaml }}</pre></details>
+  <details><summary>Preview generated prompt</summary><pre>{{ prompt_preview }}</pre></details>
+</section>
+
+<section class="panel accent-panel">
+  <h2>Already received the AI-generated main.tex?</h2>
+  <p>Package it again as a clean Overleaf or local ZIP.</p>
+  <form method="post" action="{{ url_for('package_generated') }}" enctype="multipart/form-data" class="grid two">
+    <label>Upload main.tex
+      <input type="file" name="main_tex_file" accept=".tex">
+    </label>
+    <label>Target
+      <select name="package_target"><option value="overleaf">Overleaf</option><option value="local">Local</option></select>
+    </label>
+    <label>Compiler
+      <select name="package_compiler"><option value="pdflatex">pdfLaTeX</option><option value="lualatex">LuaLaTeX</option><option value="xelatex">XeLaTeX</option></select>
+    </label>
+    <label class="wide">Or paste the complete LaTeX source
+      <textarea name="main_tex" rows="8" placeholder="\documentclass{beamer} ..."></textarea>
+    </label>
+    <label class="wide">Assets
+      <input type="file" name="project_assets" multiple accept=".png,.jpg,.jpeg,.pdf">
+    </label>
+    <button class="primary" type="submit">Package generated presentation</button>
+  </form>
+</section>
+{% endblock %}
